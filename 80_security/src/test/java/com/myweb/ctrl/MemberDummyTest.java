@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -24,10 +25,11 @@ public class MemberDummyTest {
 	
 	@Test
 	public void insertMemberTest() throws Exception {
+		BCryptPasswordEncoder bcpEncoder = new BCryptPasswordEncoder();
 		for (int i = 0; i < 128; i++) {
 			MemberVO mvo = new MemberVO();
 			mvo.setEmail("user" + i + "@user.com");
-			mvo.setPwd("1111");
+			mvo.setPwd(bcpEncoder.encode("1111"));
 			mvo.setNickname("USER" + i);
 			mdao.insert(mvo);
 		}

@@ -7,7 +7,7 @@
 <h2>Product Modify</h2>
 <c:choose>
 	<c:when test="${ses.email eq pvo.writer }">
-		<form action="/product/modify" method="post" enctype="multipart/form-data">
+		<form action="/product/modify?${_csrf.parameterName }=${_csrf.token}" method="post" enctype="multipart/form-data">
 		  <input type="hidden" name="pno" value="${pvo.pno }">
 		  <input type="hidden" name="pageIndex" value="${pgvo.pageIndex }">
 		  <input type="hidden" name="countPerPage" value="${pgvo.countPerPage }">

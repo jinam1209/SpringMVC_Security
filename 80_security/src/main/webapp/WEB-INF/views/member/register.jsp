@@ -27,10 +27,15 @@
 		$("#checkEmail").on("click", function(e) {
 			e.preventDefault();
 			let email_val = $("#email").val();
+			let header = $("meta[name='_csrf_header']").attr("content");
+			let token = $("meta[name='_csrf']").attr("content");
 			$.ajax({
 				url: "/member/checkEmail",
 				type: "post",
-				data: {email: email_val}
+				data: {email: email_val},
+				beforeSend: function(xhr){
+					xhr.setRequestHeader(header, token);
+				}
 			}).done(function(result) {
 				if(parseInt(result)==0){
 					alert("사용 가능한 이메일!");

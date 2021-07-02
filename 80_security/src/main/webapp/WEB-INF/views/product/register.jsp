@@ -7,7 +7,7 @@
 <h2>Product Register</h2>
 <c:choose>
 	<c:when test="${ses.email ne '' && ses.email ne null }">
-		<form action="/product/register" method="post" enctype="multipart/form-data">
+		<form action="/product/register?${_csrf.parameterName }=${_csrf.token}" method="post" enctype="multipart/form-data">
 		  <div class="form-group">
 		    <label for="title">Title:</label>
 		    <input type="text" class="form-control" placeholder="Enter Title" id="title" name="title">

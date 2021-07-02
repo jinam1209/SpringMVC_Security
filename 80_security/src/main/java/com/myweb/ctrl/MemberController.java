@@ -31,12 +31,12 @@ public class MemberController {
 	@Inject
 	private BCryptPasswordEncoder bcpEncoder;
 	
-	@GetMapping("/logout")
-	public String logout(RedirectAttributes reAttr, HttpSession ses) {
-		ses.invalidate();
-		reAttr.addFlashAttribute("result", "Logout Success");
-		return "redirect:/";
-	}
+//	@GetMapping("/logout")
+//	public String logout(RedirectAttributes reAttr, HttpSession ses) {
+//		ses.invalidate();
+//		reAttr.addFlashAttribute("result", "Logout Success");
+//		return "redirect:/";
+//	}
 	
 	@PostMapping("/modify")
 	public String modify(MemberVO mvo, RedirectAttributes reAttr, HttpSession ses) {

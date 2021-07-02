@@ -16,7 +16,8 @@
       <security:form-login username-parameter="email" password-parameter="pwd"
       login-processing-url="/member/login" login-page="/member/login"
       default-target-url="/"/>
-      <security:logout logout-url="/member/logout" logout-success-url="/"/>
+      <security:logout logout-url="/member/logout" logout-success-url="/"
+      invalidate-session="true"/>
    </security:http>
    <security:authentication-manager>
       <security:authentication-provider user-service-ref="memberAuthDetailService">
