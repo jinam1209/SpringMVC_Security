@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,9 @@ public class MemberController {
 
 	@Inject
 	private MemberServiceRule msv;
+	
+	@Inject
+	private BCryptPasswordEncoder bcpEncoder;
 	
 	@GetMapping("/logout")
 	public String logout(RedirectAttributes reAttr, HttpSession ses) {
@@ -63,15 +67,16 @@ public class MemberController {
 	}
 	
 	@PostMapping("/login")
-	public String login(MemberVO mvo, HttpSession ses, RedirectAttributes reAttr) {
-		MemberVO info = msv.login(mvo);
-		if(info != null) {
-			ses.setAttribute("ses", info);
-			ses.setMaxInactiveInterval(10*60); // 10 min
-		}
-		reAttr.addFlashAttribute("result", ses.getAttribute("ses") != null ? 
-				"Login Success" : "Login Fail"); // view로 전달하는 기능은 없음!, ctrl 주소체계를 거쳐서 보내야함 (reAttr 특징임)
-		return ses.getAttribute("ses") != null ? "redirect:/" : "redirect:/member/login";
+	public String login(RedirectAttributes reAttr) {
+//		MemberVO info = msv.login(mvo);
+//		if(info != null) {
+//			ses.setAttribute("ses", info);
+//			ses.setMaxInactiveInterval(10*60); // 10 min
+//		}
+//		reAttr.addFlashAttribute("result", ses.getAttribute("ses") != null ? 
+//				"Login Success" : "Login Fail"); // view로 전달하는 기능은 없음!, ctrl 주소체계를 거쳐서 보내야함 (reAttr 특징임)
+//		return ses.getAttribute("ses") != null ? "redirect:/" : "redirect:/member/login";
+		return "redirect:/";
 	}
 	
 	@GetMapping("/login")
@@ -88,6 +93,7 @@ public class MemberController {
 	
 	@PostMapping("/register") // 4.3부터 적용 가능
 	public String register(MemberVO mvo, RedirectAttributes reAttr) {
+		mvo.setPwd(bcpEncoder.encode(mvo.getPwd()));
 		int isUp = msv.register(mvo);
 		reAttr.addFlashAttribute("result", isUp > 0 ? "Register Success" : "Register Fail");
 		return isUp > 0 ? "redirect:/" : "redirect:/member/register"; // ctrl 부르려면 redirect: 사용

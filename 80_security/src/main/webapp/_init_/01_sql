@@ -110,8 +110,10 @@ commit;
 -- 각  pno 번호에 댓글 갯수 동기화하기
 update tbl_product set cmtqty = (select count(con) from tbl_comment where tbl_comment.pno = tbl_product.pno);
 
-
-
+--------------------80_security--------------------
+alter table tbl_member add auth varchar2(10) default 'MEM'; ("ROLE_USER", "ROLE_ADMIN")
+alter table tbl_member add enabled number(1) default 1;
+alter table tbl_member add failcnt number(1) default 0;
 
 
 

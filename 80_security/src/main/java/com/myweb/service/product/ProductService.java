@@ -19,12 +19,12 @@ import com.myweb.persistence.product.ProductDAORule;
 @Service
 public class ProductService implements ProductServiceRule {
 	private static Logger logger = LoggerFactory.getLogger(ProductService.class);
-	
+
 	@Inject
 	private ProductDAORule pdao;
 	@Inject
 	private FilesDAORule fdao;
-
+	
 	@Override
 	public int register(ProductVO pvo) {
 		return pdao.insert(pvo);
@@ -35,18 +35,19 @@ public class ProductService implements ProductServiceRule {
 		return pdao.selectList(pgvo);
 	}
 
-	@Transactional(isolation = Isolation.READ_COMMITTED)
+	@Transactional(isolation = Isolation.READ_COMMITTED) // update가 commit된 상황을 select 해라~
 	@Override
 	public ProductVO detail(int pno) {
 		pdao.updateRC(pno, 1);
 		ProductVO pvo = pdao.selectOne(pno);
-		if(pvo != null) {
+//		int fcnt = fdao.selectOne(pno); // 파일 유무확인
+		if(pvo != null) { // 원래는 38번 줄 추가 후 if 조건 fcnt > 0 로 해야됨
 			List<FilesVO> flist = fdao.selectList(pno);
 			pvo.setFlist(flist);
 		}
 		return pvo;
 	}
-	
+
 	@Override
 	public int modify(ProductVO pvo) {
 		pdao.updateRC(pvo.getPno(), -2);
@@ -67,4 +68,5 @@ public class ProductService implements ProductServiceRule {
 	public int getTotalCount(PageVO pgvo) {
 		return pdao.selectOne(pgvo);
 	}
+
 }

@@ -3,9 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="../common/header.jsp" />
 <jsp:include page="../common/nav.jsp" />
-
+<!-- CSRF : Cross Site Request Forgery(교차(복제) 사이트 요청 공격(위협)) -->
 <h2>Member Login</h2>
 <form action="/member/login" method="post">
+<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
   <div class="form-group">
     <label for="email">Email address:</label>
     <input type="email" class="form-control" placeholder="Enter email" id="email" name="email">

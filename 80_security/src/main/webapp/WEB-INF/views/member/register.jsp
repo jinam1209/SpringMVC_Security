@@ -6,6 +6,7 @@
 
   <h2>Member Register</h2>
   <form action="/member/register" method="post">
+  <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
     <div class="form-group">
       <label for="email">Email:</label>
       <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
